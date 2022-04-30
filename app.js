@@ -15,14 +15,14 @@ mongoose.connect('mongodb://localhost:27017/restapi', {
     console.log(err)
 })
 
-
 const productSchema = new mongoose.Schema({ // Shema
     name: String,
     description: String,
     phone: Number,
-})
+});
 
 const Product = new mongoose.model("Product", productSchema); //Model
+
 // create product
 app.post('/api/v1/product/new', async (req, res) => {
     const product = await Product.create(req.body);
@@ -42,7 +42,6 @@ app.get('/api/v1/products', async (req, res) => {
 });
 
 // update product
-
 app.put('/api/v1/product/:id', async (req, res) => {
     let product = await Product.findById(req.params.id);
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -57,7 +56,7 @@ app.put('/api/v1/product/:id', async (req, res) => {
 
 });
 
-
+// delete product
 app.delete("/api/v1/product/:id", async (req, res) => {
     const product = await Product.findById(req.params.id);
     await product.remove();
@@ -75,6 +74,7 @@ if(!product){
     })
 
 })
+
 
 app.listen(PORT, () => {
     console.log(`server running http://localhost:${PORT}`);
